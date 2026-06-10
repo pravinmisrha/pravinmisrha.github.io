@@ -668,6 +668,100 @@
       .spec-grid { grid-template-columns: 1fr; }
     }
 
+
+    /* ═══ ADVANCED ANIMATIONS (v2) ═══ */
+
+    /* Aurora glow blobs behind content */
+    .aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .aurora span {
+      position: absolute; border-radius: 50%;
+      filter: blur(110px); opacity: 0.16;
+      animation: auroraDrift 26s ease-in-out infinite alternate;
+    }
+    .aurora span:nth-child(1) { width: 520px; height: 520px; background: var(--cyan);   top: -10%; left: -8%;  animation-duration: 30s; }
+    .aurora span:nth-child(2) { width: 460px; height: 460px; background: var(--purple); top: 35%;  right: -12%; animation-duration: 24s; animation-delay: -8s; }
+    .aurora span:nth-child(3) { width: 380px; height: 380px; background: var(--orange); bottom: -12%; left: 28%; animation-duration: 34s; animation-delay: -15s; opacity: 0.1; }
+    @keyframes auroraDrift {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(60px, -50px) scale(1.15); }
+      100% { transform: translate(-50px, 50px) scale(0.92); }
+    }
+
+    /* Animated gradient sweep on hero accent */
+    h1.hero-name .accent {
+      background: linear-gradient(90deg, var(--cyan), #7ae9ff, var(--purple), var(--cyan));
+      background-size: 300% 100%;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      animation: gradientSlide 6s linear infinite;
+    }
+    @keyframes gradientSlide { to { background-position: 300% 0; } }
+
+    /* Typewriter caret on hero tag */
+    .hero-tag .tw-caret {
+      display: inline-block; width: 8px; height: 0.95em;
+      background: var(--cyan); margin-left: 4px; vertical-align: text-bottom;
+      animation: caretBlink 0.85s steps(1) infinite;
+    }
+    @keyframes caretBlink { 50% { opacity: 0; } }
+
+    /* 3D tilt cards */
+    .tilt { transform-style: preserve-3d; will-change: transform; transition: transform 0.18s ease-out, box-shadow 0.25s; }
+    .tilt:hover { box-shadow: 0 18px 48px rgba(0,0,0,0.45); }
+
+    /* Shine sweep on hover */
+    .shine { position: relative; overflow: hidden; }
+    .shine::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.07) 48%, rgba(0,212,255,0.10) 52%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform 0.7s ease;
+      pointer-events: none;
+    }
+    .shine:hover::after { transform: translateX(120%); }
+
+    /* Blog card v2 */
+    .blog-card { position: relative; overflow: hidden; }
+    .blog-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.45), transparent 40%, transparent 60%, rgba(139,92,246,0.45));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity 0.35s;
+      pointer-events: none;
+    }
+    .blog-card:hover::before { opacity: 1; }
+    .blog-date {
+      font-family: var(--mono); font-size: 0.58rem; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-left: auto; white-space: nowrap;
+    }
+    .blog-read-link { transition: all 0.25s; }
+    .blog-read-link .arr { display: inline-block; transition: transform 0.25s; }
+    .blog-read-link:hover .arr { transform: translate(3px, -3px); }
+
+    /* Floating profile card + glow ring */
+    .profile-card { animation: floatY 7s 1.4s ease-in-out infinite; will-change: transform; }
+    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* Section titles slide-in underline */
+    .sec-line { transform-origin: left; animation: none; }
+    .section-header.visible .sec-line { animation: lineGrow 0.9s 0.15s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    /* Badge stagger pop on load */
+    .hero-badges .badge { opacity: 0; animation: badgePop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    @keyframes badgePop { from { opacity: 0; transform: translateY(10px) scale(0.9); } to { opacity: 1; transform: none; } }
+
+    /* Magnetic buttons */
+    .magnetic { will-change: transform; transition: transform 0.18s ease-out; }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .aurora span, .profile-card, h1.hero-name .accent, .hero-tag .tw-caret { animation: none !important; }
+      .tilt, .magnetic { transition: none !important; transform: none !important; }
+    }
+
+    @keyframes lockShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
   </style>
 </head>
 <body>
@@ -680,6 +774,9 @@
 
   <!-- Animated BG Canvas -->
   <canvas id="bgCanvas"></canvas>
+
+  <!-- Aurora glow -->
+  <div class="aurora"><span></span><span></span><span></span></div>
 
   <!-- Back to top -->
   <a href="#" class="back-top" id="backTop">↑</a>
@@ -711,7 +808,7 @@
   <!-- ════ HERO ════ -->
   <div class="hero">
     <div class="hero-left">
-      <p class="hero-tag">Network Security &amp; Automation Architect · 13+ Years</p>
+      <p class="hero-tag"><span id="twText" data-text="Network Security &amp; Automation Architect · 13+ Years"></span><span class="tw-caret"></span></p>
       <h1 class="hero-name">Pravin<br/><span class="accent">Kumar</span><br/>Mishra</h1>
       <p class="hero-subtitle">3× CCIE (SEC · DC · AUTOMATION) &nbsp;·&nbsp; CISSP &nbsp;·&nbsp; PCNSE &nbsp;·&nbsp; Azure AZ-700</p>
       <div class="hero-badges">
@@ -905,7 +1002,7 @@
             <div class="tl-header" onclick="toggleTl('c0')">
               <div>
                 <div class="tl-company">Kumorai</div>
-                <div class="tl-role">Senior Design and Network Consultant</div>
+                <div class="tl-role">Principal Solution Architect</div>
               </div>
               <div class="tl-period">12/2025 – Present</div>
             </div>
@@ -1692,6 +1789,23 @@
     <div>© 2025 Pravin Kumar Mishra &nbsp;·&nbsp; Network Security &amp; Automation Architect &nbsp;·&nbsp; 3× CCIE · CISSP · PCNSE · Azure AZ-700 &nbsp;·&nbsp; <span id="blog-admin-trigger" style="color:var(--muted);cursor:pointer;user-select:none;opacity:0.4;font-size:0.55rem;letter-spacing:0.1em;" title="Blog Admin">✎ ADMIN</span></div>
   </footer>
 
+  <!-- ─── ADMIN PASSCODE LOCK ─── -->
+  <div id="admin-lock-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(6,8,16,0.92);backdrop-filter:blur(16px);align-items:center;justify-content:center;">
+    <div id="admin-lock-box" style="background:#0d1017;border:1px solid #222d40;border-radius:12px;padding:2.2rem 2.4rem;max-width:360px;width:90%;text-align:center;">
+      <div style="width:52px;height:52px;margin:0 auto 1.1rem;border:1px solid #00d4ff;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;color:#e8edf5;margin-bottom:0.3rem;">Admin Access</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;color:#718096;text-transform:uppercase;margin-bottom:1.4rem;">Passcode required</div>
+      <input id="admin-pass-input" type="password" autocomplete="off" placeholder="••••••••" onkeydown="if(event.key==='Enter')tryAdminUnlock()" style="width:100%;background:#060810;border:1px solid #222d40;border-radius:6px;color:#e8edf5;font-family:'JetBrains Mono',monospace;font-size:0.95rem;letter-spacing:0.25em;text-align:center;padding:0.7rem 1rem;outline:none;margin-bottom:0.8rem;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='#222d40'"/>
+      <div id="admin-pass-error" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#ff6b35;min-height:1.1em;margin-bottom:0.9rem;"></div>
+      <div style="display:flex;gap:0.6rem;">
+        <button onclick="hideAdminLock()" style="flex:1;background:transparent;border:1px solid #222d40;color:#718096;font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;padding:0.6rem;border-radius:6px;cursor:pointer;">CANCEL</button>
+        <button onclick="tryAdminUnlock()" style="flex:1;background:#00d4ff;border:none;color:#060810;font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;font-weight:600;padding:0.6rem;border-radius:6px;cursor:pointer;">UNLOCK</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ─── BLOG ADMIN PANEL ─── -->
   <div id="blog-admin-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(6,8,16,0.92);backdrop-filter:blur(16px);overflow-y:auto;">
     <div style="max-width:860px;margin:0 auto;padding:2rem;">
@@ -1723,6 +1837,11 @@
 
     const COLORS = ['rgba(0,212,255,', 'rgba(139,92,246,', 'rgba(255,107,53,', 'rgba(16,185,129,'];
 
+    // mouse interaction state
+    const mouse = { x: -9999, y: -9999 };
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
     class Particle {
       constructor() { this.reset(); }
       reset() {
@@ -1741,6 +1860,14 @@
         ctx.fill();
       }
       update() {
+        // gentle repulsion from cursor
+        const dx = this.x - mouse.x, dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 140 && dist > 0.1) {
+          const force = (140 - dist) / 140 * 0.6;
+          this.x += (dx / dist) * force;
+          this.y += (dy / dist) * force;
+        }
         this.x += this.vx;
         this.y += this.vy;
         if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
@@ -1873,6 +2000,66 @@
       btn.classList.add('active');
     }
 
+
+    // ─── TYPEWRITER (hero tag) ───
+    (function typewriter() {
+      var el = document.getElementById('twText');
+      if (!el) return;
+      var txt = el.getAttribute('data-text') || '';
+      var i = 0;
+      (function tick() {
+        if (i <= txt.length) {
+          el.textContent = txt.slice(0, i);
+          i++;
+          setTimeout(tick, i < 4 ? 200 : 28);
+        }
+      })();
+    })();
+
+    // ─── BADGE STAGGER ───
+    document.querySelectorAll('.hero-badges .badge').forEach(function(b, i) {
+      b.style.animationDelay = (0.55 + i * 0.05) + 's';
+    });
+
+    // ─── 3D TILT CARDS ───
+    function attachTilt(el, max) {
+      max = max || 7;
+      el.classList.add('tilt');
+      el.addEventListener('mousemove', function(e) {
+        var r = el.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'perspective(800px) rotateX(' + (-py * max) + 'deg) rotateY(' + (px * max) + 'deg) translateY(-3px)';
+      });
+      el.addEventListener('mouseleave', function() { el.style.transform = ''; });
+    }
+
+    // ─── MAGNETIC BUTTONS ───
+    function attachMagnetic(el, strength) {
+      strength = strength || 0.3;
+      el.classList.add('magnetic');
+      el.addEventListener('mousemove', function(e) {
+        var r = el.getBoundingClientRect();
+        var mx = e.clientX - (r.left + r.width / 2);
+        var my = e.clientY - (r.top + r.height / 2);
+        el.style.transform = 'translate(' + (mx * strength) + 'px,' + (my * strength) + 'px)';
+      });
+      el.addEventListener('mouseleave', function() { el.style.transform = ''; });
+    }
+    document.querySelectorAll('.btn-primary, .btn-secondary, .nav-download').forEach(function(b) { attachMagnetic(b, 0.25); });
+
+    // ─── HERO AVATAR PARALLAX ───
+    (function heroParallax() {
+      var img = document.querySelector('.profile-card-img');
+      if (!img || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      window.addEventListener('mousemove', function(e) {
+        var cx = (e.clientX / window.innerWidth - 0.5) * 8;
+        var cy = (e.clientY / window.innerHeight - 0.5) * 8;
+        img.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+        img.style.transition = 'transform 0.3s ease-out';
+      });
+    })();
+
     // ═══════════════════════════════════════════════════════
     // BLOG POSTS — Easy to edit! Add/remove objects here.
     // Fields: title, category, color, iconId, date, summary, url
@@ -1889,52 +2076,76 @@
 
     var BLOG_POSTS = [
       {
-        title:    "Agentic AI & MCP Integration for Network Automation",
+        title:    "Agentic AI & MCP for Network Operations — From Intent to Autonomous Remediation",
         category: "AI Networking",
         color:    "var(--cyan)",
         iconId:   "edit",
-        summary:  "How Model Context Protocol (MCP) and agentic AI frameworks can revolutionize network operations — from intent-based configuration to autonomous fault remediation.",
-        url: "#"
+        date:     "Jun 2026",
+        summary:  "How Model Context Protocol (MCP) servers and agentic AI frameworks plug directly into Junos, IOS-XE, and NetBox — turning intent into validated config pushes with human-in-the-loop guardrails.",
+        url: "blog/agentic-ai-mcp-network-operations.html"
       },
       {
-        title:    "Zero Trust Architecture with Cisco ISE & Palo Alto PCNSE",
+        title:    "AI-Ready Data Centers — RoCEv2, Lossless Ethernet & 400G GPU Fabrics",
+        category: "Data Center",
+        color:    "#a78bfa",
+        iconId:   "code",
+        date:     "May 2026",
+        summary:  "Designing EVPN/VXLAN fabrics for AI training clusters: PFC/ECN tuning, NVMe-oF transport, rail-optimized topologies, and what 3× CCIE experience teaches about scaling east-west traffic.",
+        url: "blog/ai-ready-data-center-rocev2-400g.html"
+      },
+      {
+        title:    "Zero Trust with Cisco ISE & Palo Alto NGFW — Real-World Design Patterns",
         category: "Security Architecture",
         color:    "#a78bfa",
         iconId:   "lock",
-        summary:  "Implementing Zero Trust Network Access using Cisco ISE combined with Palo Alto NGFW — real-world design patterns and lessons learned.",
-        url: "#"
+        date:     "Apr 2026",
+        summary:  "Implementing Zero Trust Network Access using Cisco ISE combined with Palo Alto NGFW — segmentation strategy, posture enforcement, and lessons learned from enterprise rollouts.",
+        url: "blog/zero-trust-cisco-ise-palo-alto.html"
       },
       {
         title:    "NETCONF / RESTCONF & YANG — Beyond CLI Automation",
         category: "Automation",
         color:    "var(--green)",
         iconId:   "code",
-        summary:  "Why YANG-based programmability with NETCONF and RESTCONF is the future of network automation, and how to bridge from Ansible to model-driven infrastructure.",
-        url: "#"
+        date:     "Mar 2026",
+        summary:  "Why YANG-based programmability is the future of network automation, and how to bridge from Ansible playbooks to model-driven infrastructure with pyATS/Genie validation.",
+        url: "blog/netconf-restconf-yang-beyond-cli.html"
       },
       {
         title:    "Threat Modelling with STRIDE & PASTA for Network Engineers",
         category: "Cybersecurity",
         color:    "var(--orange)",
         iconId:   "shield",
-        summary:  "A practical guide to applying threat modelling methodologies in enterprise network architecture — identifying attack surfaces before adversaries do.",
-        url: "#"
+        date:     "Feb 2026",
+        summary:  "A practical guide to applying threat modelling methodologies in enterprise network architecture — identifying attack surfaces before adversaries do, aligned to NIST and ISO 27001.",
+        url: "blog/threat-modelling-stride-pasta-network.html"
       },
       {
         title:    "DevSecOps in Network Pipelines — SAST, DAST & Policy as Code",
         category: "DevSecOps",
         color:    "var(--green)",
         iconId:   "check",
+        date:     "Jan 2026",
         summary:  "Embedding SAST, DAST, and OPA-based policy gates into CI/CD pipelines for infrastructure code — shifting security left in network automation workflows.",
-        url: "#"
+        url: "blog/devsecops-network-pipelines-policy-as-code.html"
       },
       {
-        title:    "3x CCIE Journey — Lessons from Security, DC & Automation Tracks",
+        title:    "Splunk for Network Telemetry — Capacity Planning to Detection Engineering",
+        category: "Observability",
+        color:    "var(--orange)",
+        iconId:   "check",
+        date:     "Dec 2025",
+        summary:  "Sizing indexers and search heads for high-volume NetFlow/syslog ingestion, building network-centric dashboards, and wiring alerts into NOC incident response.",
+        url: "blog/splunk-network-telemetry-capacity-detection.html"
+      },
+      {
+        title:    "3× CCIE Journey — Lessons from Security, DC & Automation Tracks",
         category: "Career",
         color:    "#8b5cf6",
         iconId:   "award",
+        date:     "Nov 2025",
         summary:  "The strategy, study approach, and lab methodology behind earning three CCIE certifications — Security, Data Center, and Automation — and what each track taught me.",
-        url: "#"
+        url: "blog/3x-ccie-journey-security-dc-automation.html"
       }
     ];
 
@@ -1948,12 +2159,13 @@
         var icon = (BLOG_ICONS[p.iconId] || BLOG_ICONS.edit).replace('currentColor', p.color);
         var isLive = p.url && p.url !== '#';
         var tag = isLive
-          ? '<a href="' + p.url + '" target="_blank" class="blog-read-link">Read Post &#8599;</a>'
+          ? '<a href="' + p.url + '" target="_blank" class="blog-read-link">Read Post <span class="arr">&#8599;</span></a>'
           : '<span class="blog-coming">Coming Soon</span>';
-        cards += '<div class="cert-card blog-card">'
-          + '<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;">'
+        cards += '<div class="cert-card blog-card shine">'
+          + '<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;width:100%;">'
           + '<div class="cert-logo-wrap" style="background:rgba(255,255,255,0.04);border-radius:10px;width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">' + icon + '</div>'
           + '<span style="font-family:var(--mono);font-size:0.6rem;color:' + p.color + ';letter-spacing:0.1em;text-transform:uppercase;">' + p.category + '</span>'
+          + (p.date ? '<span class="blog-date">' + p.date + '</span>' : '')
           + '</div>'
           + '<div class="cert-name" style="font-size:0.95rem;line-height:1.45;margin-bottom:0.65rem;">' + p.title + '</div>'
           + '<div class="cert-issuer" style="font-size:0.8rem;color:var(--muted2);line-height:1.65;margin-bottom:0.9rem;">' + p.summary + '</div>'
@@ -1961,7 +2173,16 @@
           + '</div>';
       }
       grid.innerHTML = cards;
+      grid.querySelectorAll('.blog-card').forEach(function(c, i) {
+        attachTilt(c, 5);
+        c.style.opacity = '0';
+        c.style.transition = 'opacity 0.5s ' + (i * 0.07) + 's, transform 0.18s ease-out';
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){ c.style.opacity = '1'; }); });
+      });
     })();
+
+    // ─── TILT ON SPEC + CERT CARDS ───
+    document.querySelectorAll('.spec-card, .cert-card:not(.blog-card)').forEach(function(c) { attachTilt(c, 4); });
 
     // ─── COUNTER ANIMATION ───
     function runCounter(el) {
@@ -2033,11 +2254,77 @@
       document.body.style.overflow = '';
     }
 
-    document.getElementById('blog-admin-trigger').addEventListener('click', openBlogAdmin);
+
+    // ─── ADMIN PASSCODE LOCK ───
+    // To change the passcode: run in browser console:
+    //   crypto.subtle.digest('SHA-256', new TextEncoder().encode('YourNewPass')).then(b => console.log([...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('')))
+    // then paste the resulting hash below.
+    var ADMIN_PASS_HASH = 'c14319135158f1d2ca3e5547addfe5299b68d1629464534e1a3773c5830474bf';
+    var adminFails = 0, adminLockUntil = 0;
+
+    function sha256Hex(str) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf) {
+        return Array.prototype.map.call(new Uint8Array(buf), function(x) { return x.toString(16).padStart(2, '0'); }).join('');
+      });
+    }
+
+    function requestAdminAccess() {
+      if (sessionStorage.getItem('pkmAdminUnlocked') === '1') { openBlogAdmin(); return; }
+      showAdminLock();
+    }
+
+    function showAdminLock() {
+      var ov = document.getElementById('admin-lock-overlay');
+      ov.style.display = 'flex';
+      var inp = document.getElementById('admin-pass-input');
+      inp.value = '';
+      document.getElementById('admin-pass-error').textContent = '';
+      setTimeout(function() { inp.focus(); }, 50);
+    }
+
+    function hideAdminLock() {
+      document.getElementById('admin-lock-overlay').style.display = 'none';
+    }
+
+    function tryAdminUnlock() {
+      var err = document.getElementById('admin-pass-error');
+      var now = Date.now();
+      if (now < adminLockUntil) {
+        err.textContent = 'Too many attempts. Try again in ' + Math.ceil((adminLockUntil - now) / 1000) + 's.';
+        return;
+      }
+      var val = document.getElementById('admin-pass-input').value;
+      if (!val) { err.textContent = 'Enter passcode.'; return; }
+      if (!(window.crypto && crypto.subtle)) { err.textContent = 'Secure context required (use HTTPS).'; return; }
+      sha256Hex(val).then(function(h) {
+        if (h === ADMIN_PASS_HASH) {
+          sessionStorage.setItem('pkmAdminUnlocked', '1');
+          adminFails = 0;
+          hideAdminLock();
+          openBlogAdmin();
+        } else {
+          adminFails++;
+          var box = document.getElementById('admin-lock-box');
+          box.style.animation = 'none';
+          void box.offsetWidth;
+          box.style.animation = 'lockShake 0.4s';
+          if (adminFails >= 5) {
+            adminLockUntil = Date.now() + 30000;
+            adminFails = 0;
+            err.textContent = 'Too many attempts. Locked for 30s.';
+          } else {
+            err.textContent = 'Incorrect passcode (' + adminFails + '/5).';
+          }
+          document.getElementById('admin-pass-input').value = '';
+        }
+      });
+    }
+
+    document.getElementById('blog-admin-trigger').addEventListener('click', requestAdminAccess);
 
     // Keyboard shortcut: Ctrl+Shift+B
     document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.shiftKey && e.key === 'B') openBlogAdmin();
+      if (e.ctrlKey && e.shiftKey && e.key === 'B') requestAdminAccess();
     });
 
     function renderAdminPosts() {
@@ -2055,9 +2342,10 @@
               '<button onclick="deleteBlogPost(' + i + ')" style="' + adminBtnStyle('rgba(255,107,53,0.1)','#ff6b35') + '">✕ DELETE</button>' +
             '</div>' +
           '</div>' +
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem;">' +
+          '<div style="display:grid;grid-template-columns:1.4fr 1fr 0.8fr;gap:0.8rem;margin-bottom:0.8rem;">' +
             adminField('Title', 'post-title-'+i, p.title, 'text', true) +
             adminField('Category', 'post-cat-'+i, p.category, 'text', false) +
+            adminField('Date (e.g. Jun 2026)', 'post-date-'+i, p.date || '', 'text', false) +
           '</div>' +
           '<div style="margin-bottom:0.8rem;">' +
             adminField('Summary', 'post-summary-'+i, p.summary, 'textarea', true) +
@@ -2117,7 +2405,9 @@
         var url     = document.getElementById('post-url-'+i);
         var icon    = document.getElementById('post-icon-'+i);
         var color   = document.getElementById('post-color-'+i);
+        var date    = document.getElementById('post-date-'+i);
         if (title)   BLOG_POSTS[i].title    = title.value;
+        if (date)    BLOG_POSTS[i].date     = date.value;
         if (cat)     BLOG_POSTS[i].category = cat.value;
         if (summary) BLOG_POSTS[i].summary  = summary.value;
         if (url)     BLOG_POSTS[i].url      = url.value;
@@ -2134,12 +2424,13 @@
           var icon = (BLOG_ICONS[p.iconId] || BLOG_ICONS.edit).replace('currentColor', p.color);
           var isLive = p.url && p.url !== '#';
           var tag = isLive
-            ? '<a href="' + p.url + '" target="_blank" class="blog-read-link">Read Post &#8599;</a>'
+            ? '<a href="' + p.url + '" target="_blank" class="blog-read-link">Read Post <span class="arr">&#8599;</span></a>'
             : '<span class="blog-coming">Coming Soon</span>';
-          cards += '<div class="cert-card blog-card">'
-            + '<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;">'
+          cards += '<div class="cert-card blog-card shine">'
+            + '<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;width:100%;">'
             + '<div class="cert-logo-wrap" style="background:rgba(255,255,255,0.04);border-radius:10px;width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">' + icon + '</div>'
             + '<span style="font-family:var(--mono);font-size:0.6rem;color:' + p.color + ';letter-spacing:0.1em;text-transform:uppercase;">' + p.category + '</span>'
+            + (p.date ? '<span class="blog-date">' + p.date + '</span>' : '')
             + '</div>'
             + '<div class="cert-name" style="font-size:0.95rem;line-height:1.45;margin-bottom:0.65rem;">' + p.title + '</div>'
             + '<div class="cert-issuer" style="font-size:0.8rem;color:var(--muted2);line-height:1.65;margin-bottom:0.9rem;">' + p.summary + '</div>'
@@ -2147,6 +2438,7 @@
             + '</div>';
         }
         grid.innerHTML = cards;
+        grid.querySelectorAll('.blog-card').forEach(function(c) { attachTilt(c, 5); });
       })();
 
       // Show saved status
@@ -2162,6 +2454,7 @@
         category: "Category",
         color:    "var(--cyan)",
         iconId:   "edit",
+        date:     "",
         summary:  "Write your post summary here.",
         url:      "#"
       });
