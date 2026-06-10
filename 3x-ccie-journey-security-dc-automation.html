@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3× CCIE Journey — Lessons from Security, DC &amp; Automation Tracks — Pravin Kumar Mishra</title>
+<meta name="description" content="Three CCIEs taught me three different ways of thinking. Security taught paranoia, Data Center taught systems, Automation taught leverage. The certific"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root { --bg:#060810; --surface:#0d1017; --border:#1a2030; --border2:#222d40; --cyan:#00d4ff; --orange:#ff6b35; --purple:#8b5cf6; --green:#10b981; --text:#e8edf5; --muted:#4a5568; --muted2:#718096; --mono:'JetBrains Mono',monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{position:absolute;border-radius:50%;filter:blur(110px);opacity:.14;animation:drift 28s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:480px;height:480px;background:var(--cyan);top:-10%;left:-8%}
+.aurora span:nth-child(2){width:420px;height:420px;background:var(--purple);top:45%;right:-12%;animation-delay:-9s}
+@keyframes drift{0%{transform:translate(0,0)scale(1)}100%{transform:translate(-50px,50px)scale(1.1)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,8,16,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2rem}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--cyan);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);text-decoration:none;border:1px solid var(--border2);padding:.45rem 1rem;border-radius:4px;transition:all .2s}
+.nav-back:hover{color:var(--cyan);border-color:var(--cyan)}
+article{max-width:860px;margin:0 auto;padding:8.5rem 2rem 5rem;position:relative;z-index:1}
+.post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.post-cat{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#8b5cf6;border:1px solid #8b5cf6;padding:.3rem .8rem;border-radius:3px}
+.post-date{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.04;letter-spacing:.02em;margin-bottom:1rem;background:linear-gradient(90deg,var(--text),#8b5cf6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.post-lede{font-size:1.05rem;color:var(--muted2);font-weight:300;border-left:2px solid #8b5cf6;padding-left:1.2rem;margin:1.6rem 0 2.6rem}
+h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.04em;color:var(--text);margin:2.8rem 0 1rem;position:relative;padding-left:1.1rem}
+h2::before{content:'';position:absolute;left:0;top:.3rem;bottom:.3rem;width:3px;background:#8b5cf6;border-radius:2px}
+p{margin-bottom:1.2rem;color:#c4cdd9;font-weight:300}
+strong{color:var(--text);font-weight:600}
+ul{margin:0 0 1.4rem 1.2rem}
+li{margin-bottom:.6rem;color:#c4cdd9;font-weight:300}
+li::marker{color:#8b5cf6}
+code{font-family:var(--mono);font-size:.85em;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:.1em .45em;border-radius:4px;color:var(--cyan)}
+.callout{background:var(--surface);border:1px solid var(--border2);border-left:3px solid #8b5cf6;border-radius:8px;padding:1.2rem 1.4rem;margin:1.8rem 0;font-size:.92rem;color:var(--muted2)}
+.post-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.post-author{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted2)}
+.post-author strong{color:var(--cyan)}
+.back-link{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#8b5cf6;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.fade{opacity:0;transform:translateY(18px);animation:fadeUp .7s .15s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.aurora span,.fade{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><span></span><span></span></div>
+<nav><div class="nav-inner"><a class="nav-logo" href="../index.html">PKM</a><a class="nav-back" href="../index.html#blog">&larr; All Posts</a></div></nav>
+<article class="fade">
+<div class="post-meta"><span class="post-cat">Career</span><span class="post-date">Nov 2025 &nbsp;·&nbsp; 8 min read</span></div>
+<h1>3× CCIE Journey — Lessons from Security, DC &amp; Automation Tracks</h1>
+<p class="post-lede">Three CCIEs taught me three different ways of thinking. Security taught paranoia, Data Center taught systems, Automation taught leverage. The certificates expire; the thinking doesn't.</p>
+
+<h2>Why three tracks</h2>
+<p>I didn't set out to collect numbers. Each track followed where my work actually was: securing government infrastructure pushed me to <strong>CCIE Security</strong>, an N7K-to-ACI Multi-Pod migration demanded <strong>CCIE Data Center</strong> depth, and the realization that I couldn't scale myself led to <strong>CCIE Automation</strong>. The lab number is a milestone; the months of structured study are the product.</p>
+<h2>What each track really teaches</h2>
+<ul>
+<li><strong>Security: think in failure modes.</strong> The lab forces you to ask "what happens when this control is bypassed?" for every design. That habit — assuming compromise, designing the second line — is the entire job, and it's why the track pairs naturally with CISSP-level strategy work later.</li>
+<li><strong>Data Center: think in systems.</strong> ACI, VXLAN/EVPN, storage, compute integration — nothing in the DC track is a single-box problem. You learn that fabric behavior emerges from the interaction of overlays, underlays, and policy, and you stop debugging boxes and start debugging systems.</li>
+<li><strong>Automation: think in leverage.</strong> Python, APIs, model-driven telemetry, pyATS. The mental shift is from "how do I configure this" to "how do I make this class of change safe to repeat a thousand times." It changed my career more than the other two combined.</li>
+</ul>
+<h2>The study method that survived three labs</h2>
+<ul>
+<li><strong>Lab time beats reading time 3:1.</strong> Build everything. Break everything. My EVE-NG topologies were rebuilt from scratch weekly until muscle memory took over.</li>
+<li><strong>Teach to learn.</strong> Writing explanations — for colleagues, for myself — exposed every gap I'd been papering over. (This blog is the continuation of that habit.)</li>
+<li><strong>Timed mock labs from month three.</strong> The exam is a time-management test wearing a technology costume. Train the clock skill explicitly.</li>
+<li><strong>Protect the routine.</strong> Two focused hours daily beat weekend heroics. Across years and a demanding job, consistency was the only variable that mattered.</li>
+</ul>
+<h2>Was it worth it?</h2>
+<p>In an era of AI assistance and cloud abstraction, people ask if expert-level certs still matter. My answer: the credential opens doors, but the <strong>capacity for sustained deep work</strong> the journey builds is what walks through them. Every architecture review, every P1 bridge call, every "can we trust this AI-generated config?" decision draws on judgment those labs forged.</p>
+<div class="callout">If you're starting: pick the track your current job feeds, not the one that's trendy. Studying what you practice daily halves the journey.</div>
+
+<div class="post-footer">
+<div class="post-author">WRITTEN BY <strong>PRAVIN KUMAR MISHRA</strong><br/>Principal Solution Architect · 3× CCIE · CISSP · PCNSE</div>
+<a class="back-link" href="../index.html#blog">&larr; Back to all posts</a>
+</div>
+</article>
+</body>
+</html>

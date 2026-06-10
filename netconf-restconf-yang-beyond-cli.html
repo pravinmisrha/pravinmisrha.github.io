@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NETCONF / RESTCONF &amp; YANG — Beyond CLI Automation — Pravin Kumar Mishra</title>
+<meta name="description" content="Screen-scraping CLI with regex got us surprisingly far. But 'surprisingly far' is not an engineering strategy. Model-driven management is how automati"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root { --bg:#060810; --surface:#0d1017; --border:#1a2030; --border2:#222d40; --cyan:#00d4ff; --orange:#ff6b35; --purple:#8b5cf6; --green:#10b981; --text:#e8edf5; --muted:#4a5568; --muted2:#718096; --mono:'JetBrains Mono',monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{position:absolute;border-radius:50%;filter:blur(110px);opacity:.14;animation:drift 28s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:480px;height:480px;background:var(--cyan);top:-10%;left:-8%}
+.aurora span:nth-child(2){width:420px;height:420px;background:var(--purple);top:45%;right:-12%;animation-delay:-9s}
+@keyframes drift{0%{transform:translate(0,0)scale(1)}100%{transform:translate(-50px,50px)scale(1.1)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,8,16,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2rem}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--cyan);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);text-decoration:none;border:1px solid var(--border2);padding:.45rem 1rem;border-radius:4px;transition:all .2s}
+.nav-back:hover{color:var(--cyan);border-color:var(--cyan)}
+article{max-width:860px;margin:0 auto;padding:8.5rem 2rem 5rem;position:relative;z-index:1}
+.post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.post-cat{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#10b981;border:1px solid #10b981;padding:.3rem .8rem;border-radius:3px}
+.post-date{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.04;letter-spacing:.02em;margin-bottom:1rem;background:linear-gradient(90deg,var(--text),#10b981);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.post-lede{font-size:1.05rem;color:var(--muted2);font-weight:300;border-left:2px solid #10b981;padding-left:1.2rem;margin:1.6rem 0 2.6rem}
+h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.04em;color:var(--text);margin:2.8rem 0 1rem;position:relative;padding-left:1.1rem}
+h2::before{content:'';position:absolute;left:0;top:.3rem;bottom:.3rem;width:3px;background:#10b981;border-radius:2px}
+p{margin-bottom:1.2rem;color:#c4cdd9;font-weight:300}
+strong{color:var(--text);font-weight:600}
+ul{margin:0 0 1.4rem 1.2rem}
+li{margin-bottom:.6rem;color:#c4cdd9;font-weight:300}
+li::marker{color:#10b981}
+code{font-family:var(--mono);font-size:.85em;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:.1em .45em;border-radius:4px;color:var(--cyan)}
+.callout{background:var(--surface);border:1px solid var(--border2);border-left:3px solid #10b981;border-radius:8px;padding:1.2rem 1.4rem;margin:1.8rem 0;font-size:.92rem;color:var(--muted2)}
+.post-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.post-author{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted2)}
+.post-author strong{color:var(--cyan)}
+.back-link{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#10b981;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.fade{opacity:0;transform:translateY(18px);animation:fadeUp .7s .15s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.aurora span,.fade{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><span></span><span></span></div>
+<nav><div class="nav-inner"><a class="nav-logo" href="../index.html">PKM</a><a class="nav-back" href="../index.html#blog">&larr; All Posts</a></div></nav>
+<article class="fade">
+<div class="post-meta"><span class="post-cat">Automation</span><span class="post-date">Mar 2026 &nbsp;·&nbsp; 7 min read</span></div>
+<h1>NETCONF / RESTCONF &amp; YANG — Beyond CLI Automation</h1>
+<p class="post-lede">Screen-scraping CLI with regex got us surprisingly far. But 'surprisingly far' is not an engineering strategy. Model-driven management is how automation stops being fragile.</p>
+
+<h2>The problem with CLI automation</h2>
+<p>Ansible playbooks full of <code>ios_command</code> and TextFSM templates work — until an OS upgrade reorders a column, or a config merge does something subtly different from what the template assumed. CLI is a human interface. Automating it means parsing prose.</p>
+<p><strong>YANG models</strong> flip this: the device exposes a typed schema (interfaces, BGP, ACLs) and <strong>NETCONF/RESTCONF</strong> are the transports for reading and writing structured data against it. No parsing. Validation before commit. Rollback as a protocol feature, not a hope.</p>
+<h2>What changes in practice</h2>
+<ul>
+<li><strong>Candidate datastores and atomic commit.</strong> NETCONF lets you stage a config, validate it, and commit with confirmed-commit rollback timers. Half-applied changes — the classic CLI failure mode — disappear.</li>
+<li><strong>Structured operational state.</strong> <code>GET</code> on a RESTCONF path returns JSON you feed straight into your tooling. Your monitoring and your automation finally share one data model.</li>
+<li><strong>Vendor-neutral intent (mostly).</strong> OpenConfig models cover the common 80%. The remaining 20% is native models — still structured, still typed, just per-vendor.</li>
+</ul>
+<h2>The migration path that works</h2>
+<p>You do not rewrite your automation estate in one quarter. The sequence I recommend:</p>
+<ul>
+<li><strong>Read-only first.</strong> Replace your "show command + parse" inventory and audit scripts with RESTCONF GETs. Zero risk, immediate payoff.</li>
+<li><strong>Validate with pyATS/Genie.</strong> Use model-driven state retrieval as the assertion layer for every change — pre-check, change, post-check, diff.</li>
+<li><strong>Template into models.</strong> Move your Jinja2 from CLI snippets to YANG-shaped payloads. The templates get smaller because the device does the validation.</li>
+<li><strong>Git as the source of intent.</strong> Configs become structured documents in a repo; pipelines render, validate against a twin, and push via NETCONF. That's GitOps for the network, and it composes naturally with the AI-agent tooling I've written about elsewhere.</li>
+</ul>
+<div class="callout">Honest caveat: YANG support is uneven across platforms and the learning curve is real — <code>pyang</code>, model trees, and XPath filters are a different skill set from CLI mastery. Budget the ramp. It pays back the first time a confirmed-commit timer saves you from a locked-out core switch.</div>
+
+<div class="post-footer">
+<div class="post-author">WRITTEN BY <strong>PRAVIN KUMAR MISHRA</strong><br/>Principal Solution Architect · 3× CCIE · CISSP · PCNSE</div>
+<a class="back-link" href="../index.html#blog">&larr; Back to all posts</a>
+</div>
+</article>
+</body>
+</html>

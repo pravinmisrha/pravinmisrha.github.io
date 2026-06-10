@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Threat Modelling with STRIDE &amp; PASTA for Network Engineers — Pravin Kumar Mishra</title>
+<meta name="description" content="Security reviews that start from the firewall rulebase find firewall problems. Threat modelling starts from the attacker's goals — and finds the paths"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root { --bg:#060810; --surface:#0d1017; --border:#1a2030; --border2:#222d40; --cyan:#00d4ff; --orange:#ff6b35; --purple:#8b5cf6; --green:#10b981; --text:#e8edf5; --muted:#4a5568; --muted2:#718096; --mono:'JetBrains Mono',monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{position:absolute;border-radius:50%;filter:blur(110px);opacity:.14;animation:drift 28s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:480px;height:480px;background:var(--cyan);top:-10%;left:-8%}
+.aurora span:nth-child(2){width:420px;height:420px;background:var(--purple);top:45%;right:-12%;animation-delay:-9s}
+@keyframes drift{0%{transform:translate(0,0)scale(1)}100%{transform:translate(-50px,50px)scale(1.1)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,8,16,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2rem}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--cyan);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);text-decoration:none;border:1px solid var(--border2);padding:.45rem 1rem;border-radius:4px;transition:all .2s}
+.nav-back:hover{color:var(--cyan);border-color:var(--cyan)}
+article{max-width:860px;margin:0 auto;padding:8.5rem 2rem 5rem;position:relative;z-index:1}
+.post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.post-cat{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#ff6b35;border:1px solid #ff6b35;padding:.3rem .8rem;border-radius:3px}
+.post-date{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.04;letter-spacing:.02em;margin-bottom:1rem;background:linear-gradient(90deg,var(--text),#ff6b35);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.post-lede{font-size:1.05rem;color:var(--muted2);font-weight:300;border-left:2px solid #ff6b35;padding-left:1.2rem;margin:1.6rem 0 2.6rem}
+h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.04em;color:var(--text);margin:2.8rem 0 1rem;position:relative;padding-left:1.1rem}
+h2::before{content:'';position:absolute;left:0;top:.3rem;bottom:.3rem;width:3px;background:#ff6b35;border-radius:2px}
+p{margin-bottom:1.2rem;color:#c4cdd9;font-weight:300}
+strong{color:var(--text);font-weight:600}
+ul{margin:0 0 1.4rem 1.2rem}
+li{margin-bottom:.6rem;color:#c4cdd9;font-weight:300}
+li::marker{color:#ff6b35}
+code{font-family:var(--mono);font-size:.85em;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:.1em .45em;border-radius:4px;color:var(--cyan)}
+.callout{background:var(--surface);border:1px solid var(--border2);border-left:3px solid #ff6b35;border-radius:8px;padding:1.2rem 1.4rem;margin:1.8rem 0;font-size:.92rem;color:var(--muted2)}
+.post-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.post-author{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted2)}
+.post-author strong{color:var(--cyan)}
+.back-link{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#ff6b35;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.fade{opacity:0;transform:translateY(18px);animation:fadeUp .7s .15s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.aurora span,.fade{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><span></span><span></span></div>
+<nav><div class="nav-inner"><a class="nav-logo" href="../index.html">PKM</a><a class="nav-back" href="../index.html#blog">&larr; All Posts</a></div></nav>
+<article class="fade">
+<div class="post-meta"><span class="post-cat">Cybersecurity</span><span class="post-date">Feb 2026 &nbsp;·&nbsp; 8 min read</span></div>
+<h1>Threat Modelling with STRIDE &amp; PASTA for Network Engineers</h1>
+<p class="post-lede">Security reviews that start from the firewall rulebase find firewall problems. Threat modelling starts from the attacker's goals — and finds the paths your rulebase never imagined.</p>
+
+<h2>Why network engineers should threat model</h2>
+<p>We're trained to think in flows and policies. Attackers think in <strong>goals and paths</strong>. Threat modelling is the discipline that bridges the two: enumerate what can go wrong <em>before</em> the design ships, while changing it is still cheap. Having reviewed application code for XSS, CSRF, and SQL injection in a previous role, I can say the same systematic mindset transfers directly to network architecture — the assets just become VRFs, control planes, and management interfaces.</p>
+<h2>STRIDE: the fast structural pass</h2>
+<p>Walk every component and trust boundary of the design and ask six questions — <strong>S</strong>poofing, <strong>T</strong>ampering, <strong>R</strong>epudiation, <strong>I</strong>nformation disclosure, <strong>D</strong>enial of service, <strong>E</strong>levation of privilege. Applied to a typical enterprise design:</p>
+<ul>
+<li><strong>Spoofing:</strong> Can a rogue device impersonate a RADIUS server or a BGP peer? (Answers: server certs in ISE, BGP TTL security + auth, DHCP snooping/DAI at access.)</li>
+<li><strong>Tampering:</strong> Is config integrity protected end-to-end — signed images, RPKI for routes, change pipelines instead of ad-hoc CLI?</li>
+<li><strong>Information disclosure:</strong> Where does cleartext management traffic still live? SNMPv2, syslog over UDP, that one legacy TACACS path everyone forgot.</li>
+<li><strong>DoS:</strong> Control-plane policing, CoPP on every box, and capacity assumptions written down — not discovered during the attack.</li>
+<li><strong>Elevation:</strong> Who can pivot from a user VLAN to the management VRF? In most environments I assess, the honest answer is "more people than intended."</li>
+</ul>
+<h2>PASTA: when the stakes justify depth</h2>
+<p><strong>PASTA</strong> (Process for Attack Simulation and Threat Analysis) is the seven-stage, risk-centric method: define business objectives, decompose the application/infrastructure, enumerate threats, map attack paths, and weigh likelihood against business impact. Where STRIDE gives you per-component coverage, PASTA forces prioritization — it answers "which of these forty findings do we fix this quarter?" That's the language a CISO and a budget owner actually share, and it aligns cleanly with NIST CSF and ISO 27001 risk-treatment requirements.</p>
+<h2>Making it stick</h2>
+<div class="callout">Make threat modelling a design-gate artifact: no new network segment, exposure, or third-party connection goes live without a one-page STRIDE table and a list of accepted risks with named owners. Thirty minutes per design. It will find something every single time.</div>
+
+<div class="post-footer">
+<div class="post-author">WRITTEN BY <strong>PRAVIN KUMAR MISHRA</strong><br/>Principal Solution Architect · 3× CCIE · CISSP · PCNSE</div>
+<a class="back-link" href="../index.html#blog">&larr; Back to all posts</a>
+</div>
+</article>
+</body>
+</html>

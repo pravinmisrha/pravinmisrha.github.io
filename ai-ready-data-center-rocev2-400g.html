@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI-Ready Data Centers — RoCEv2, Lossless Ethernet &amp; 400G GPU Fabrics — Pravin Kumar Mishra</title>
+<meta name="description" content="GPU clusters don't fail like web farms. One paused queue, one PFC storm, one ECMP hash collision — and a million-dollar training run slows to a crawl."/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root { --bg:#060810; --surface:#0d1017; --border:#1a2030; --border2:#222d40; --cyan:#00d4ff; --orange:#ff6b35; --purple:#8b5cf6; --green:#10b981; --text:#e8edf5; --muted:#4a5568; --muted2:#718096; --mono:'JetBrains Mono',monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{position:absolute;border-radius:50%;filter:blur(110px);opacity:.14;animation:drift 28s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:480px;height:480px;background:var(--cyan);top:-10%;left:-8%}
+.aurora span:nth-child(2){width:420px;height:420px;background:var(--purple);top:45%;right:-12%;animation-delay:-9s}
+@keyframes drift{0%{transform:translate(0,0)scale(1)}100%{transform:translate(-50px,50px)scale(1.1)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,8,16,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2rem}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--cyan);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);text-decoration:none;border:1px solid var(--border2);padding:.45rem 1rem;border-radius:4px;transition:all .2s}
+.nav-back:hover{color:var(--cyan);border-color:var(--cyan)}
+article{max-width:860px;margin:0 auto;padding:8.5rem 2rem 5rem;position:relative;z-index:1}
+.post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.post-cat{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#a78bfa;border:1px solid #a78bfa;padding:.3rem .8rem;border-radius:3px}
+.post-date{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.04;letter-spacing:.02em;margin-bottom:1rem;background:linear-gradient(90deg,var(--text),#a78bfa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.post-lede{font-size:1.05rem;color:var(--muted2);font-weight:300;border-left:2px solid #a78bfa;padding-left:1.2rem;margin:1.6rem 0 2.6rem}
+h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.04em;color:var(--text);margin:2.8rem 0 1rem;position:relative;padding-left:1.1rem}
+h2::before{content:'';position:absolute;left:0;top:.3rem;bottom:.3rem;width:3px;background:#a78bfa;border-radius:2px}
+p{margin-bottom:1.2rem;color:#c4cdd9;font-weight:300}
+strong{color:var(--text);font-weight:600}
+ul{margin:0 0 1.4rem 1.2rem}
+li{margin-bottom:.6rem;color:#c4cdd9;font-weight:300}
+li::marker{color:#a78bfa}
+code{font-family:var(--mono);font-size:.85em;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:.1em .45em;border-radius:4px;color:var(--cyan)}
+.callout{background:var(--surface);border:1px solid var(--border2);border-left:3px solid #a78bfa;border-radius:8px;padding:1.2rem 1.4rem;margin:1.8rem 0;font-size:.92rem;color:var(--muted2)}
+.post-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.post-author{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted2)}
+.post-author strong{color:var(--cyan)}
+.back-link{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#a78bfa;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.fade{opacity:0;transform:translateY(18px);animation:fadeUp .7s .15s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.aurora span,.fade{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><span></span><span></span></div>
+<nav><div class="nav-inner"><a class="nav-logo" href="../index.html">PKM</a><a class="nav-back" href="../index.html#blog">&larr; All Posts</a></div></nav>
+<article class="fade">
+<div class="post-meta"><span class="post-cat">Data Center</span><span class="post-date">May 2026 &nbsp;·&nbsp; 9 min read</span></div>
+<h1>AI-Ready Data Centers — RoCEv2, Lossless Ethernet &amp; 400G GPU Fabrics</h1>
+<p class="post-lede">GPU clusters don't fail like web farms. One paused queue, one PFC storm, one ECMP hash collision — and a million-dollar training run slows to a crawl. Designing for AI means designing for the tail, not the average.</p>
+
+<h2>The workload is the spec</h2>
+<p>AI training traffic is unlike anything classic DC design assumed. It is <strong>synchronized, bursty, elephant-flow east-west</strong> traffic: thousands of GPUs exchanging gradients in collective operations where the slowest path defines the speed of the whole job. A 0.1% packet loss that no web app would notice can cut training throughput dramatically, because RoCEv2's loss recovery is brutal compared to TCP.</p>
+<h2>Lossless Ethernet, done carefully</h2>
+<p>RoCEv2 needs a lossless fabric, and that means <strong>PFC + ECN tuned together</strong>, not just enabled:</p>
+<ul>
+<li><strong>ECN does the work, PFC is the safety net.</strong> Set WRED/ECN thresholds low enough that DCQCN reacts before queues fill; PFC should fire rarely. If you see steady PFC pause counters, your ECN thresholds are wrong.</li>
+<li><strong>Watch for PFC storms and deadlocks.</strong> Priority pause propagates upstream. Headroom buffers must be sized for cable length and port speed, and PFC watchdogs are mandatory.</li>
+<li><strong>Separate traffic classes.</strong> RDMA in its own queue, CNPs prioritized, storage and management isolated. One misclassified flow can poison the lossless class.</li>
+</ul>
+<h2>Topology: rail-optimized vs. classic Clos</h2>
+<p>For GPU pods, <strong>rail-optimized designs</strong> — where GPU <em>N</em> of every server connects to leaf <em>N</em> — keep collective traffic a single hop for intra-rail communication and dramatically reduce spine load for NCCL's ring and tree algorithms. The frontend network (storage via NVMe-oF, orchestration, user access) stays a conventional EVPN/VXLAN fabric; the backend GPU fabric is its own world with its own failure domain.</p>
+<h2>400G and the optics problem</h2>
+<p>At 400G the design conversation becomes a physical-layer conversation: power per port, optics cost dominating switch cost, FEC latency, and DR4/FR4 reach planning. Budget optics first, switches second — it's routinely 60%+ of fabric cost.</p>
+<div class="callout">From my ACI Multi-Pod migration days, the lesson that carries over: the fabric you can <strong>observe</strong> is the fabric you can scale. Streaming telemetry on queue depth, ECN marks, and PFC counters per port is not optional in an AI fabric — it's how you find the one bad cable killing your job.</div>
+<h2>The checklist</h2>
+<p>Buffer-monitor before you scale. Validate with real collectives (NCCL tests, not iperf). Keep the GPU fabric flat, fast, and boring. And treat every firmware/NOS upgrade as a science experiment — the DCQCN behavior you tuned is implementation-specific.</p>
+
+<div class="post-footer">
+<div class="post-author">WRITTEN BY <strong>PRAVIN KUMAR MISHRA</strong><br/>Principal Solution Architect · 3× CCIE · CISSP · PCNSE</div>
+<a class="back-link" href="../index.html#blog">&larr; Back to all posts</a>
+</div>
+</article>
+</body>
+</html>

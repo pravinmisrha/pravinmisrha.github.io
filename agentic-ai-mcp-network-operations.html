@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Agentic AI &amp; MCP for Network Operations — From Intent to Autonomous Remediation — Pravin Kumar Mishra</title>
+<meta name="description" content="Network automation has spent a decade translating CLI into YAML. The next leap is different in kind: AI agents that reason about the network, propose "/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root { --bg:#060810; --surface:#0d1017; --border:#1a2030; --border2:#222d40; --cyan:#00d4ff; --orange:#ff6b35; --purple:#8b5cf6; --green:#10b981; --text:#e8edf5; --muted:#4a5568; --muted2:#718096; --mono:'JetBrains Mono',monospace; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.8;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{position:absolute;border-radius:50%;filter:blur(110px);opacity:.14;animation:drift 28s ease-in-out infinite alternate}
+.aurora span:nth-child(1){width:480px;height:480px;background:var(--cyan);top:-10%;left:-8%}
+.aurora span:nth-child(2){width:420px;height:420px;background:var(--purple);top:45%;right:-12%;animation-delay:-9s}
+@keyframes drift{0%{transform:translate(0,0)scale(1)}100%{transform:translate(-50px,50px)scale(1.1)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,8,16,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2rem}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--cyan);text-decoration:none}
+.nav-back{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);text-decoration:none;border:1px solid var(--border2);padding:.45rem 1rem;border-radius:4px;transition:all .2s}
+.nav-back:hover{color:var(--cyan);border-color:var(--cyan)}
+article{max-width:860px;margin:0 auto;padding:8.5rem 2rem 5rem;position:relative;z-index:1}
+.post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.post-cat{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#00d4ff;border:1px solid #00d4ff;padding:.3rem .8rem;border-radius:3px}
+.post-date{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.04;letter-spacing:.02em;margin-bottom:1rem;background:linear-gradient(90deg,var(--text),#00d4ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.post-lede{font-size:1.05rem;color:var(--muted2);font-weight:300;border-left:2px solid #00d4ff;padding-left:1.2rem;margin:1.6rem 0 2.6rem}
+h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.04em;color:var(--text);margin:2.8rem 0 1rem;position:relative;padding-left:1.1rem}
+h2::before{content:'';position:absolute;left:0;top:.3rem;bottom:.3rem;width:3px;background:#00d4ff;border-radius:2px}
+p{margin-bottom:1.2rem;color:#c4cdd9;font-weight:300}
+strong{color:var(--text);font-weight:600}
+ul{margin:0 0 1.4rem 1.2rem}
+li{margin-bottom:.6rem;color:#c4cdd9;font-weight:300}
+li::marker{color:#00d4ff}
+code{font-family:var(--mono);font-size:.85em;background:rgba(255,255,255,.05);border:1px solid var(--border);padding:.1em .45em;border-radius:4px;color:var(--cyan)}
+.callout{background:var(--surface);border:1px solid var(--border2);border-left:3px solid #00d4ff;border-radius:8px;padding:1.2rem 1.4rem;margin:1.8rem 0;font-size:.92rem;color:var(--muted2)}
+.post-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.post-author{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted2)}
+.post-author strong{color:var(--cyan)}
+.back-link{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#00d4ff;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.fade{opacity:0;transform:translateY(18px);animation:fadeUp .7s .15s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.aurora span,.fade{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><span></span><span></span></div>
+<nav><div class="nav-inner"><a class="nav-logo" href="../index.html">PKM</a><a class="nav-back" href="../index.html#blog">&larr; All Posts</a></div></nav>
+<article class="fade">
+<div class="post-meta"><span class="post-cat">AI Networking</span><span class="post-date">Jun 2026 &nbsp;·&nbsp; 8 min read</span></div>
+<h1>Agentic AI &amp; MCP for Network Operations — From Intent to Autonomous Remediation</h1>
+<p class="post-lede">Network automation has spent a decade translating CLI into YAML. The next leap is different in kind: AI agents that reason about the network, propose changes, validate them in a lab, and push them — with a human approving the blast radius.</p>
+
+<h2>Why MCP changes the integration problem</h2>
+<p>Every NetOps AI demo dies at the same point: integration. The model can write a beautiful BGP policy, but it can't see your NetBox, can't run <code>show</code> commands, and can't open a change ticket. The <strong>Model Context Protocol (MCP)</strong> fixes exactly this. Instead of writing one-off glue code for every tool, you expose each system — NetBox, your firewalls, your routers, Grafana, Gitea — as an MCP server with typed tools the model can call.</p>
+<p>In my lab I run a local LLM behind an orchestration layer with MCP servers for device CLI execution, NetBox source-of-truth queries, and an EVE-NG digital twin. The agent's loop is simple: <strong>read intent → query source of truth → draft config → validate in the twin → request approval → push → verify</strong>.</p>
+<h2>The architecture that actually works</h2>
+<ul>
+<li><strong>Source of truth first.</strong> The agent never invents IPs or VLANs. Every object comes from NetBox via an MCP tool call, so hallucination is structurally impossible for inventory data.</li>
+<li><strong>Read-only by default.</strong> Diagnostic tools (show commands, log queries) are unrestricted. Anything that mutates state goes through a separate, gated tool with an explicit approval step.</li>
+<li><strong>Digital-twin validation.</strong> Before any production push, the candidate config is applied to an EVE-NG replica and verified with pyATS — interface state, routing adjacencies, reachability.</li>
+<li><strong>Human-in-the-loop on blast radius.</strong> The agent computes which devices, VRFs, and policies a change touches and presents that as the approval artifact. You approve impact, not syntax.</li>
+</ul>
+<h2>What agents are good at today</h2>
+<p>Triage is the killer app. Feed an agent a syslog burst, let it pull interface counters, BGP state, and recent commits, and it will correlate cause far faster than a tier-1 engineer paging through four dashboards. Closed-loop remediation works today for a narrow, well-defined class of faults: flapping interfaces, certificate expiry, config drift against the golden template.</p>
+<div class="callout">Rule of thumb: let agents own anything you would trust a junior engineer to do with a runbook. Keep architecture decisions, security policy, and anything touching the underlay behind human approval.</div>
+<h2>Where to start</h2>
+<p>Don't start with remediation. Start with an MCP server over your source of truth and a read-only CLI tool, and let the agent answer questions: "Which firewall rules reference this decommissioned subnet?" The ROI is immediate, the risk is zero, and it builds the trust you'll need before you ever let it commit.</p>
+
+<div class="post-footer">
+<div class="post-author">WRITTEN BY <strong>PRAVIN KUMAR MISHRA</strong><br/>Principal Solution Architect · 3× CCIE · CISSP · PCNSE</div>
+<a class="back-link" href="../index.html#blog">&larr; Back to all posts</a>
+</div>
+</article>
+</body>
+</html>
